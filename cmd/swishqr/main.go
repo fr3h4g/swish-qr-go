@@ -11,7 +11,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/fredrik/swish-qr-go/swishqr"
+	"github.com/fr3h4g/swish-qr-go/swishqr"
 )
 
 // version is set at build time via -ldflags "-X main.version=...", e.g.

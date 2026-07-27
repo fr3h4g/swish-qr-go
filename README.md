@@ -1,7 +1,7 @@
 # swish-qr-go
 
-[![CI](https://github.com/fredrik/swish-qr-go/actions/workflows/ci.yml/badge.svg)](https://github.com/fredrik/swish-qr-go/actions/workflows/ci.yml)
-[![Release](https://github.com/fredrik/swish-qr-go/actions/workflows/release.yml/badge.svg)](https://github.com/fredrik/swish-qr-go/actions/workflows/release.yml)
+[![CI](https://github.com/fr3h4g/swish-qr-go/actions/workflows/ci.yml/badge.svg)](https://github.com/fr3h4g/swish-qr-go/actions/workflows/ci.yml)
+[![Release](https://github.com/fr3h4g/swish-qr-go/actions/workflows/release.yml/badge.svg)](https://github.com/fr3h4g/swish-qr-go/actions/workflows/release.yml)
 
 A Go port of [swish-qr-python](https://github.com/fr3h4g/swish-qr-python):
 generates Swish-styled payment QR codes (the dotted, gradient, rounded-corner
@@ -12,7 +12,7 @@ style used by the Swish app) as SVG or PNG.
 ## Install
 
 ```sh
-go get github.com/fredrik/swish-qr-go/swishqr
+go get github.com/fr3h4g/swish-qr-go/swishqr
 ```
 
 (Rename the module path in `go.mod` to wherever you actually host this.)
@@ -59,7 +59,7 @@ go run ./cmd/swishqr --format png 0123456789 100.99 "Test message!" out.png
 ```
 
 Prebuilt binaries (Linux/macOS/Windows, amd64/arm64) are attached to each
-[GitHub release](https://github.com/fredrik/swish-qr-go/releases) — see
+[GitHub release](https://github.com/fr3h4g/swish-qr-go/releases) — see
 "Releasing" below. `swishqr --version` prints the build's version.
 
 ## CI/CD
@@ -92,7 +92,7 @@ goreleaser release --snapshot --clean
 ```
 
 The `release.github.owner`/`name` in `.goreleaser.yaml` and the badge
-URLs above assume this repo lives at `github.com/fredrik/swish-qr-go` —
+URLs above assume this repo lives at `github.com/fr3h4g/swish-qr-go` —
 update both if you host it elsewhere (see the module path note under
 Install).
 

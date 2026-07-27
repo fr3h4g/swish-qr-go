@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/fr3h4g/swish-qr-go/actions/workflows/ci.yml/badge.svg)](https://github.com/fr3h4g/swish-qr-go/actions/workflows/ci.yml)
 [![Release](https://github.com/fr3h4g/swish-qr-go/actions/workflows/release.yml/badge.svg)](https://github.com/fr3h4g/swish-qr-go/actions/workflows/release.yml)
+[![codecov](https://codecov.io/gh/fr3h4g/swish-qr-go/branch/main/graph/badge.svg)](https://codecov.io/gh/fr3h4g/swish-qr-go)
 
 A Go port of [swish-qr-python](https://github.com/fr3h4g/swish-qr-python):
 generates Swish-styled payment QR codes (the dotted, gradient, rounded-corner
@@ -65,9 +66,14 @@ Prebuilt binaries (Linux/macOS/Windows, amd64/arm64) are attached to each
 ## CI/CD
 
 - **CI** (`.github/workflows/ci.yml`) runs on every pull request and on
-  pushes to `main`: `go build`, `go vet`, `go test` across Go 1.22/1.23
-  on Linux/macOS/Windows, plus a dedicated `-race` run and a `gofmt -l`
-  check.
+  pushes to `main`: `go build`, `go vet`, `go test` across Go
+  1.22–1.26 on Linux/macOS/Windows, plus a dedicated `-race` run and a
+  `gofmt -l` check. The `-race` run also generates a coverage profile
+  and uploads it to [Codecov](https://codecov.io) — for a public repo
+  this works without any secret, but if uploads start failing, add a
+  `CODECOV_TOKEN` repo secret from your Codecov project settings (the
+  workflow step already reads `secrets.CODECOV_TOKEN` and won't fail
+  the build if it's unset, via `fail_ci_if_error: false`).
 - **Release** (`.github/workflows/release.yml`) runs when a `vX.Y.Z` tag
   is pushed: it re-runs the test suite, then uses
   [GoReleaser](https://goreleaser.com) (config in `.goreleaser.yaml`) to

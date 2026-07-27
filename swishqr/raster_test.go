@@ -11,9 +11,9 @@ func TestAACoverage(t *testing.T) {
 		dist float64
 		want float64
 	}{
-		{-1, 1},   // well inside
-		{0, 0.5},  // exactly on the boundary
-		{1, 0},    // well outside
+		{-1, 1},  // well inside
+		{0, 0.5}, // exactly on the boundary
+		{1, 0},   // well outside
 		{-10, 1},
 		{10, 0},
 	}

@@ -19,16 +19,3 @@ func compositeOver(dst *image.RGBA, src image.Image, x, y int) {
 	r := image.Rect(x, y, x+src.Bounds().Dx(), y+src.Bounds().Dy())
 	stddraw.Draw(dst, r, src, src.Bounds().Min, stddraw.Over)
 }
-
-// rotate90CW rotates src 90 degrees clockwise into a new image.
-func rotate90CW(src *image.RGBA) *image.RGBA {
-	b := src.Bounds()
-	w, h := b.Dx(), b.Dy()
-	dst := image.NewRGBA(image.Rect(0, 0, h, w))
-	for y := 0; y < h; y++ {
-		for x := 0; x < w; x++ {
-			dst.Set(h-1-y, x, src.At(b.Min.X+x, b.Min.Y+y))
-		}
-	}
-	return dst
-}

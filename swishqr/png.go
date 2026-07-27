@@ -16,21 +16,14 @@ import (
 // so only the dots and corner accents end up visible.
 func buildAlphaMask(modules [][]bool, size, dotSize, dotSpace int) *image.RGBA {
 	imageSize := size*dotSize + size*dotSpace
-	cornerSize := 7*dotSize + 7*dotSpace
-	cornerPos := (size-7)*dotSize + (size-7)*dotSpace
-
-	base := generateCornerMask()
-	topLeft := resizeRGBA(base, cornerSize, cornerSize)
-	bottomLeft := resizeRGBA(rotate90CW(rotate90CW(rotate90CW(base))), cornerSize, cornerSize) // 90 CCW
-	topRight := resizeRGBA(rotate90CW(base), cornerSize, cornerSize)                           // 270 CCW == 90 CW
+	modulePx := float64(dotSize + dotSpace)
 
 	canvas := image.NewRGBA(image.Rect(0, 0, imageSize, imageSize))
-	compositeOver(canvas, topLeft, 0, 0)
-	compositeOver(canvas, bottomLeft, 0, cornerPos)
-	compositeOver(canvas, topRight, cornerPos, 0)
-
 	dc := gg.NewContextForRGBA(canvas)
 	dc.SetRGBA(1, 1, 1, 1)
+
+	drawCornerAccents(dc, modulePx, size)
+
 	for y := 0; y < size; y++ {
 		for x := 0; x < size; x++ {
 			if !modules[x][y] {

@@ -14,15 +14,26 @@ import (
 	"github.com/fredrik/swish-qr-go/swishqr"
 )
 
+// version is set at build time via -ldflags "-X main.version=...", e.g.
+// from CI on tagged releases (see .goreleaser.yaml). Left as "dev" for
+// plain `go build`/`go run`.
+var version = "dev"
+
 func main() {
 	format := flag.String("format", "png", "image format, svg or png")
 	editAmount := flag.Bool("edit-amount", false, "let the payer edit the amount in the Swish app")
 	editMessage := flag.Bool("edit-message", false, "let the payer edit the message in the Swish app")
+	showVersion := flag.Bool("version", false, "print the version and exit")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags] <payee> <amount> <message> <filename>\n\n", os.Args[0])
 		flag.PrintDefaults()
 	}
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Println(version)
+		return
+	}
 
 	args := flag.Args()
 	if len(args) != 4 {

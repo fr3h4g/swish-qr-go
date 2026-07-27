@@ -6,8 +6,6 @@ import (
 	"image"
 	"image/color"
 	stdpng "image/png"
-
-	"github.com/fogleman/gg"
 )
 
 // buildAlphaMask paints the three rounded corner accents and every "on"
@@ -19,10 +17,8 @@ func buildAlphaMask(modules [][]bool, size, dotSize, dotSpace int) *image.RGBA {
 	modulePx := float64(dotSize + dotSpace)
 
 	canvas := image.NewRGBA(image.Rect(0, 0, imageSize, imageSize))
-	dc := gg.NewContextForRGBA(canvas)
-	dc.SetRGBA(1, 1, 1, 1)
 
-	drawCornerAccents(dc, modulePx, size)
+	drawCornerAccents(canvas, modulePx, size)
 
 	for y := 0; y < size; y++ {
 		for x := 0; x < size; x++ {
@@ -31,8 +27,7 @@ func buildAlphaMask(modules [][]bool, size, dotSize, dotSpace int) *image.RGBA {
 			}
 			cx := float64(x*dotSize+x*dotSpace) + float64(dotSize)/2
 			cy := float64(y*dotSize+y*dotSpace) + float64(dotSize)/2
-			dc.DrawCircle(cx, cy, float64(dotSize)/2)
-			dc.Fill()
+			fillCircle(canvas, cx, cy, float64(dotSize)/2)
 		}
 	}
 	return canvas

@@ -4,6 +4,8 @@ A Go port of [swish-qr-python](https://github.com/fr3h4g/swish-qr-python):
 generates Swish-styled payment QR codes (the dotted, gradient, rounded-corner
 style used by the Swish app) as SVG or PNG.
 
+![Example](https://raw.githubusercontent.com/fr3h4g/swish-qr-go/main/example.png "Example")
+
 ## Install
 
 ```sh
@@ -18,23 +20,23 @@ go get github.com/fredrik/swish-qr-go/swishqr
 package main
 
 import (
-	"os"
+ "os"
 
-	"github.com/fredrik/swish-qr-go/swishqr"
+ "github.com/fr3h4g/swish-qr-go/swishqr"
 )
 
 func main() {
-	svg, err := swishqr.GenerateSwishCode("0123456789", 100.99, "Test message!", "svg", false, false)
-	if err != nil {
-		panic(err)
-	}
-	os.WriteFile("example.svg", svg, 0o644)
+ svg, err := swishqr.GenerateSwishCode("0123456789", 100.99, "Test message!", "svg", false, false)
+ if err != nil {
+  panic(err)
+ }
+ os.WriteFile("example.svg", svg, 0o644)
 
-	png, err := swishqr.GenerateSwishCode("0123456789", 100.99, "Test message!", "png", false, false)
-	if err != nil {
-		panic(err)
-	}
-	os.WriteFile("example.png", png, 0o644)
+ png, err := swishqr.GenerateSwishCode("0123456789", 100.99, "Test message!", "png", false, false)
+ if err != nil {
+  panic(err)
+ }
+ os.WriteFile("example.png", png, 0o644)
 }
 ```
 

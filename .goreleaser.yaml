@@ -1,0 +1,63 @@
+# Builds and publishes the swishqr CLI (cmd/swishqr) as cross-platform
+# release archives whenever a "vX.Y.Z" tag is pushed (see
+# .github/workflows/release.yml). The swishqr library itself isn't
+# published here — Go consumers just `go get` the module as usual.
+#
+# Verify locally before relying on this in CI:
+#   goreleaser check
+#   goreleaser release --snapshot --clean
+
+version: 2
+
+project_name: swishqr
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: swishqr
+    main: ./cmd/swishqr
+    binary: swishqr
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - id: swishqr
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    files:
+      - README.md
+      - LICENSE*
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^test:"
+      - "^ci:"
+      - "^docs:"
+
+release:
+  github:
+    owner: fredrik
+    name: swish-qr-go

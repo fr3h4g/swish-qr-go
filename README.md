@@ -1,5 +1,8 @@
 # swish-qr-go
 
+[![CI](https://github.com/fredrik/swish-qr-go/actions/workflows/ci.yml/badge.svg)](https://github.com/fredrik/swish-qr-go/actions/workflows/ci.yml)
+[![Release](https://github.com/fredrik/swish-qr-go/actions/workflows/release.yml/badge.svg)](https://github.com/fredrik/swish-qr-go/actions/workflows/release.yml)
+
 A Go port of [swish-qr-python](https://github.com/fr3h4g/swish-qr-python):
 generates Swish-styled payment QR codes (the dotted, gradient, rounded-corner
 style used by the Swish app) as SVG or PNG.
@@ -55,6 +58,44 @@ func main() {
 go run ./cmd/swishqr --format png 0123456789 100.99 "Test message!" out.png
 ```
 
+Prebuilt binaries (Linux/macOS/Windows, amd64/arm64) are attached to each
+[GitHub release](https://github.com/fredrik/swish-qr-go/releases) — see
+"Releasing" below. `swishqr --version` prints the build's version.
+
+## CI/CD
+
+- **CI** (`.github/workflows/ci.yml`) runs on every pull request and on
+  pushes to `main`: `go build`, `go vet`, `go test` across Go 1.22/1.23
+  on Linux/macOS/Windows, plus a dedicated `-race` run and a `gofmt -l`
+  check.
+- **Release** (`.github/workflows/release.yml`) runs when a `vX.Y.Z` tag
+  is pushed: it re-runs the test suite, then uses
+  [GoReleaser](https://goreleaser.com) (config in `.goreleaser.yaml`) to
+  cross-compile `cmd/swishqr` for Linux/macOS/Windows (amd64 + arm64,
+  Windows amd64 only) and publish the archives, checksums, and an
+  auto-generated changelog to a GitHub release.
+
+### Releasing
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+That's it — the tag push triggers the release workflow. To verify the
+GoReleaser config locally before tagging (no publishing):
+
+```sh
+go install github.com/goreleaser/goreleaser/v2@latest
+goreleaser check
+goreleaser release --snapshot --clean
+```
+
+The `release.github.owner`/`name` in `.goreleaser.yaml` and the badge
+URLs above assume this repo lives at `github.com/fredrik/swish-qr-go` —
+update both if you host it elsewhere (see the module path note under
+Install).
+
 ## How it differs from the Python original
 
 - QR encoding is a from-scratch, dependency-free encoder (byte mode
@@ -97,5 +138,8 @@ swishqr/
   gradient.go    - brand gradient
   imageutil.go   - Catmull-Rom resize + alpha compositing
   logo.go/.png   - embedded Swish logo
-cmd/swishqr/     - CLI
+  *_test.go      - tests
+cmd/swishqr/         - CLI
+.github/workflows/   - CI (ci.yml) + release (release.yml)
+.goreleaser.yaml     - cross-platform release build config
 ```
